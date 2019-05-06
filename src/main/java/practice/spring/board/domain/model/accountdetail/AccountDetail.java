@@ -1,4 +1,4 @@
-package practice.spring.board.domain.model;
+package practice.spring.board.domain.model.accountdetail;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

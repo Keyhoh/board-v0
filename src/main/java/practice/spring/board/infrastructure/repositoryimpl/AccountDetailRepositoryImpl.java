@@ -1,10 +1,10 @@
 package practice.spring.board.infrastructure.repositoryimpl;
 
 import org.springframework.stereotype.Component;
-import practice.spring.board.domain.model.AccountDetail;
-import practice.spring.board.domain.repository.AccountDetailRepository;
+import practice.spring.board.domain.model.accountdetail.AccountDetail;
+import practice.spring.board.domain.model.accountdetail.AccountDetailRepository;
 import practice.spring.board.infrastructure.entity.Account;
-import practice.spring.board.infrastructure.jparepository.AccountRepository;
+import practice.spring.board.infrastructure.persistence.AccountRepository;
 
 import java.util.Optional;
 

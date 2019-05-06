@@ -1,4 +1,4 @@
-package practice.spring.board.domain.model;
+package practice.spring.board.domain.model.boarduser;
 
 import lombok.Getter;
 import lombok.Setter;

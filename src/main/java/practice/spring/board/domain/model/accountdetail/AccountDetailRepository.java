@@ -1,6 +1,6 @@
-package practice.spring.board.domain.repository;
+package practice.spring.board.domain.model.accountdetail;
 
-import practice.spring.board.domain.model.AccountDetail;
+import practice.spring.board.domain.model.accountdetail.AccountDetail;
 
 import java.util.Optional;
 

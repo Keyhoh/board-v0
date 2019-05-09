@@ -1,5 +1,6 @@
 package practice.spring.board.domain.model.accountdetail;
 
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -9,14 +10,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+@Builder
 public class AccountDetail implements UserDetails {
-    public AccountDetail(String username, String password, boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-        this.authorities = Collections.singleton(Role.USER);
-    }
-
     private enum Role {
         USER,
     }
@@ -27,7 +22,8 @@ public class AccountDetail implements UserDetails {
     @Getter(onMethod = @__(@Override))
     private String password;
 
-    private Collection<Role> authorities;
+    @Builder.Default
+    private Collection<Role> authorities = Collections.singleton(Role.USER);
 
     @Getter(onMethod = @__(@Override))
     private boolean enabled;

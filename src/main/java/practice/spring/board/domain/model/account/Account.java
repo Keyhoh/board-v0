@@ -1,15 +1,16 @@
-package practice.spring.board.infrastructure.entity;
+package practice.spring.board.domain.model.account;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
-@Data
+@Getter
 @Entity
 @Table(name = "accounts")
-public class Account {
+public class Account implements Serializable {
     @Id
     private String username;
     private String password;

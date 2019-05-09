@@ -1,4 +1,4 @@
-package practice.spring.board.presentation.service;
+package practice.spring.board.application.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

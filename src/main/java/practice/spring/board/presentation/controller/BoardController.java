@@ -5,13 +5,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import practice.spring.board.application.service.BoardService;
 import practice.spring.board.domain.model.accountdetail.AccountDetail;
-import practice.spring.board.domain.model.comment.Comment;
+import practice.spring.board.domain.model.boardcomment.BoardComment;
+import practice.spring.board.presentation.dto.PostCommentInformation;
+
+import java.time.LocalDateTime;
 
 @RestController
 public class BoardController {
+    private final BoardService boardService;
+
+    public BoardController(BoardService boardService) {
+        this.boardService = boardService;
+    }
+
     @RequestMapping(value = "/postComment", method = RequestMethod.GET)
-    public Comment postComment(@AuthenticationPrincipal AccountDetail accountDetail, @RequestParam String text) {
-        return new Comment(accountDetail.getUsername(), text);
+    // TODO: view から dto で渡される予定
+    public BoardComment postComment(@AuthenticationPrincipal AccountDetail accountDetail, @RequestParam String text) {
+        var comment = BoardComment.builder()
+                .username(accountDetail.getUsername())
+                .text(text)
+                .postAt(LocalDateTime.now())
+                .build();
+        var postCommentInformation = PostCommentInformation.builder()
+                .boardComment(comment)
+                .bunchCapacity(50)
+                .build();
+        return boardService.createComment(postCommentInformation);
     }
 }

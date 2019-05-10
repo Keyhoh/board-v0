@@ -3,10 +3,9 @@ package practice.spring.board.application.service;
 import org.springframework.stereotype.Service;
 import practice.spring.board.domain.model.boardpage.BoardPage;
 import practice.spring.board.domain.model.boardpage.BoardPageRepository;
-import practice.spring.board.domain.model.boardpageable.BoardPageable;
 import practice.spring.board.domain.model.boardcomment.BoardComment;
 import practice.spring.board.domain.model.boardcomment.BoardCommentRepository;
-import practice.spring.board.presentation.dto.PostCommentInformation;
+import practice.spring.board.presentation.dto.BoardCommentInformation;
 
 import javax.validation.constraints.Positive;
 
@@ -26,11 +25,11 @@ public class BoardService {
     /**
      * 投稿されたコメントを登録する
      *
-     * @param postCommentInformation 投稿コメント情報
+     * @param boardCommentInformation 投稿コメント情報
      * @return 登録コメント情報
      */
-    public BoardComment createComment(PostCommentInformation postCommentInformation) {
-        return boardCommentRepository.save(postCommentInformation.getBoardComment());
+    public BoardComment createComment(BoardCommentInformation boardCommentInformation) {
+        return boardCommentRepository.save(boardCommentInformation.getBoardComment());
     }
 
     public BoardPage readLatestBunchComment(@Positive int capacity) {

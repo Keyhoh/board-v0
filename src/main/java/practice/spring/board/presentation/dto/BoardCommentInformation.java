@@ -6,7 +6,7 @@ import practice.spring.board.domain.model.boardcomment.BoardComment;
 
 @Builder
 @Getter
-public class PostCommentInformation {
-    private int bunchCapacity;
+public class BoardCommentInformation {
+    private int size;
     private BoardComment boardComment;
 }

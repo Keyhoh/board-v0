@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import practice.spring.board.application.service.BoardService;
 import practice.spring.board.domain.model.accountdetail.AccountDetail;
 import practice.spring.board.domain.model.boardcomment.BoardComment;
-import practice.spring.board.presentation.dto.PostCommentInformation;
+import practice.spring.board.presentation.dto.BoardCommentInformation;
 
 import java.time.LocalDateTime;
 
@@ -28,9 +28,9 @@ public class BoardController {
                 .text(text)
                 .postAt(LocalDateTime.now())
                 .build();
-        var postCommentInformation = PostCommentInformation.builder()
+        var postCommentInformation = BoardCommentInformation.builder()
                 .boardComment(comment)
-                .bunchCapacity(50)
+                .size(50)
                 .build();
         return boardService.createComment(postCommentInformation);
     }

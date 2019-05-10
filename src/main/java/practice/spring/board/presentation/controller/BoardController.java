@@ -20,8 +20,8 @@ public class BoardController {
         this.boardService = boardService;
     }
 
+    // TODO: view から form で渡される予定
     @RequestMapping(value = "/postComment", method = RequestMethod.GET)
-    // TODO: view から dto で渡される予定
     public BoardComment postComment(@AuthenticationPrincipal AccountDetail accountDetail, @RequestParam String text) {
         var comment = BoardComment.builder()
                 .username(accountDetail.getUsername())

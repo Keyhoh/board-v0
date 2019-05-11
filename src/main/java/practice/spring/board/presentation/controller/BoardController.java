@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import practice.spring.board.application.service.BoardService;
 import practice.spring.board.domain.model.accountdetail.AccountDetail;
 import practice.spring.board.domain.model.boardcomment.BoardComment;
+import practice.spring.board.domain.model.boardpage.BoardPage;
 import practice.spring.board.presentation.dto.BoardCommentInformation;
 
 import java.time.LocalDateTime;
@@ -33,5 +34,10 @@ public class BoardController {
                 .size(50)
                 .build();
         return boardService.createComment(postCommentInformation);
+    }
+
+    @RequestMapping(value = "/getLatestPage", method = RequestMethod.GET)
+    public BoardPage getLatestPage(@RequestParam int size){
+        return boardService.readLatestBunchComment(size);
     }
 }

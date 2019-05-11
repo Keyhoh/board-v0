@@ -22,7 +22,7 @@ public class BoardPageRepositoryImpl implements BoardPageRepository {
     public BoardPage findBoardPage(int pageNum, int size) {
         var boardPageable = BoardPageable.of(pageNum, size);
         List<BoardComment> boardCommentList = boardCommentJpaRepository.findAll(boardPageable).getContent();
-        return new BoardPage(boardCommentList, boardPageable, size);
+        return new BoardPage(boardCommentList, boardPageable);
     }
 
     @Override
@@ -30,6 +30,6 @@ public class BoardPageRepositoryImpl implements BoardPageRepository {
         var totalNumber = boardCommentJpaRepository.count();
         var boardPageable = BoardPageable.of((int) totalNumber / size, size);
         List<BoardComment> boardCommentList = boardCommentJpaRepository.findAll(boardPageable).getContent();
-        return new BoardPage(boardCommentList, boardPageable, size);
+        return new BoardPage(boardCommentList, boardPageable);
     }
 }

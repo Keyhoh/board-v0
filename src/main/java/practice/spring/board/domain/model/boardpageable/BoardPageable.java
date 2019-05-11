@@ -121,6 +121,7 @@ public class BoardPageable implements Pageable, Serializable {
     }
 
     private enum Size {
+        TEN(10),
         FIFTY(50),
         HANDED(100);
 

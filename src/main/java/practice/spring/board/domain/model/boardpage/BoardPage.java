@@ -10,7 +10,7 @@ import java.util.List;
 public class BoardPage extends PageImpl<BoardComment> {
 
     // 一ページあたりのコメント数を制限するため、BoardPageable で実装
-    public BoardPage(List<BoardComment> content, BoardPageable pageable, long total) {
-        super(content, pageable, total);
+    public BoardPage(List<BoardComment> content, BoardPageable pageable) {
+        super(content, pageable, pageable.getPageSize());
     }
 }

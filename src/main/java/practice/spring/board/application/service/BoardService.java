@@ -32,7 +32,24 @@ public class BoardService {
         return boardCommentRepository.save(boardCommentInformation.getBoardComment());
     }
 
-    public BoardPage readLatestBunchComment(@Positive int capacity) {
-        return boardPageRepository.findLatestBoardPage(capacity);
+    /**
+     * 指定のページを取得する
+     *
+     * @param pageNum ページ番号
+     * @param size 1ページあたりのコメント数
+     * @return 指定されたページ
+     */
+    public BoardPage findBoardPage(int pageNum, int size){
+        return boardPageRepository.findBoardPage(pageNum,size);
+    }
+
+    /**
+     * 最後のページを取得する
+     *
+     * @param size 1ページあたりのコメント数
+     * @return 最後のページ
+     */
+    public BoardPage findLatestBoardPage(@Positive int size) {
+        return boardPageRepository.findLatestBoardPage(size);
     }
 }

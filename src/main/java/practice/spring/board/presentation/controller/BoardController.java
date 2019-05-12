@@ -36,8 +36,13 @@ public class BoardController {
         return boardService.createComment(postCommentInformation);
     }
 
+    @RequestMapping(value = "/getPage")
+    public BoardPage readPage(@RequestParam int pageNum, @RequestParam int size) {
+        return boardService.findBoardPage(pageNum, size);
+    }
+
     @RequestMapping(value = "/getLatestPage", method = RequestMethod.GET)
-    public BoardPage getLatestPage(@RequestParam int size){
-        return boardService.readLatestBunchComment(size);
+    public BoardPage readLatestPage(@RequestParam int size) {
+        return boardService.findLatestBoardPage(size);
     }
 }

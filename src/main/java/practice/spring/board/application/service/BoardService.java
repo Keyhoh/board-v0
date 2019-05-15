@@ -5,7 +5,6 @@ import practice.spring.board.domain.model.boardpage.BoardPage;
 import practice.spring.board.domain.model.boardpage.BoardPageRepository;
 import practice.spring.board.domain.model.boardcomment.BoardComment;
 import practice.spring.board.domain.model.boardcomment.BoardCommentRepository;
-import practice.spring.board.presentation.dto.BoardCommentInformation;
 
 import javax.validation.constraints.Positive;
 
@@ -25,11 +24,11 @@ public class BoardService {
     /**
      * 投稿されたコメントを登録する
      *
-     * @param boardCommentInformation 投稿コメント情報
+     * @param boardComment 投稿コメント情報
      * @return 登録コメント情報
      */
-    public BoardComment createComment(BoardCommentInformation boardCommentInformation) {
-        return boardCommentRepository.save(boardCommentInformation.getBoardComment());
+    public BoardComment createComment(BoardComment boardComment) {
+        return boardCommentRepository.save(boardComment);
     }
 
     /**

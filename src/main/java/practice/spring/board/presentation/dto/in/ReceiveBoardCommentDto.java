@@ -1,10 +1,10 @@
-package practice.spring.board.presentation.dto;
+package practice.spring.board.presentation.dto.in;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 @Getter
-public class BoardCommentDto {
+public class ReceiveBoardCommentDto {
     private String comment;
 }

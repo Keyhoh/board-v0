@@ -9,7 +9,8 @@ import practice.spring.board.application.service.BoardService;
 import practice.spring.board.domain.model.accountdetail.AccountDetail;
 import practice.spring.board.domain.model.boardcomment.BoardComment;
 import practice.spring.board.domain.model.boardpage.BoardPage;
-import practice.spring.board.presentation.dto.BoardCommentDto;
+import practice.spring.board.presentation.dto.in.ReceiveBoardCommentDto;
+import practice.spring.board.presentation.dto.out.SendBoardCommentDto;
 
 import java.time.LocalDateTime;
 
@@ -24,18 +25,18 @@ public class BoardController {
     // TODO: view から form で渡される予定
     @RequestMapping(value = "/postComment", method = RequestMethod.GET)
     public BoardComment postComment(@AuthenticationPrincipal AccountDetail accountDetail, @RequestParam
-            BoardCommentDto boardCommentDto) {
+            ReceiveBoardCommentDto receiveBoardCommentDto) {
         var boardComment = BoardComment.builder()
                 .username(accountDetail.getUsername())
-                .comment(boardCommentDto.getComment())
+                .comment(receiveBoardCommentDto.getComment())
                 .postAt(LocalDateTime.now())
                 .build();
         return boardService.createComment(boardComment);
     }
 
     @RequestMapping(value = "/getPage", method = RequestMethod.GET)
-    public BoardPage readPage(@RequestParam int page, @RequestParam int size) {
-        return boardService.findBoardPage(page, size);
+    public SendBoardCommentDto readPage(@RequestParam int page, @RequestParam int size) {
+        return SendBoardCommentDto.of(boardService.findBoardPage(page, size));
     }
 
     @RequestMapping(value = "/getLatestPage", method = RequestMethod.GET)

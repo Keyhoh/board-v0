@@ -17,7 +17,8 @@ public class BoardComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
-    private Integer id;
+    @Column(name = "id")
+    private Integer index;
 
     private String username;
 

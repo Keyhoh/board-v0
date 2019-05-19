@@ -19,6 +19,8 @@ public class BoardPage extends PageImpl<BoardComment> {
         return new BoardPage(page.getContent(), pageable, page.getTotalElements());
     }
 
+    // 使うメソッドは明示的に宣言
+
     @Override
     public List<BoardComment> getContent() {
         return super.getContent();

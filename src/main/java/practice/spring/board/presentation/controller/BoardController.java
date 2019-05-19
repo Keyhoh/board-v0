@@ -36,11 +36,10 @@ public class BoardController {
 
     @RequestMapping(value = "/getPage", method = RequestMethod.GET)
     public SendBoardCommentDto readPage(@RequestParam int page, @RequestParam int size) {
-        return SendBoardCommentDto.of(boardService.findBoardPage(page, size));
-    }
-
-    @RequestMapping(value = "/getLatestPage", method = RequestMethod.GET)
-    public BoardPage readLatestPage(@RequestParam int size) {
-        return boardService.findLatestBoardPage(size);
+        if (page < 0) {
+            return SendBoardCommentDto.of(boardService.findLatestBoardPage(size));
+        } else {
+            return SendBoardCommentDto.of(boardService.findBoardPage(page, size));
+        }
     }
 }

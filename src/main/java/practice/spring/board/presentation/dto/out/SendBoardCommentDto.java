@@ -14,14 +14,16 @@ public class SendBoardCommentDto {
     private List<BoardComment> boardCommentList;
     private int totalPages;
     private long totalElements;
-    private int number;
+    private int page;
+    private int size;
 
     public static SendBoardCommentDto of(BoardPage boardPage) {
         return builder()
                 .boardCommentList(boardPage.getContent())
                 .totalPages(boardPage.getTotalPages())
                 .totalElements(boardPage.getTotalElements())
-                .number(boardPage.getNumber())
+                .page(boardPage.getNumber())
+                .size(boardPage.getSize())
                 .build();
     }
 }

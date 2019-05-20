@@ -1,10 +1,7 @@
 package practice.spring.board.presentation.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import practice.spring.board.application.service.BoardService;
 import practice.spring.board.domain.model.accountdetail.AccountDetail;
 import practice.spring.board.domain.model.boardcomment.BoardComment;
@@ -22,15 +19,15 @@ public class BoardController {
     }
 
     // TODO: view から form で渡される予定
-    @RequestMapping(value = "/postComment", method = RequestMethod.GET)
-    public BoardComment postComment(@AuthenticationPrincipal AccountDetail accountDetail, @RequestParam
-            ReceiveBoardCommentDto receiveBoardCommentDto) {
+    @RequestMapping(value = "/postComment", method = RequestMethod.POST)
+    public void postComment(@AuthenticationPrincipal AccountDetail accountDetail,
+                                    @RequestBody ReceiveBoardCommentDto receiveBoardCommentDto) {
         var boardComment = BoardComment.builder()
                 .username(accountDetail.getUsername())
                 .comment(receiveBoardCommentDto.getComment())
                 .postAt(LocalDateTime.now())
                 .build();
-        return boardService.createComment(boardComment);
+        boardService.createComment(boardComment);
     }
 
     @RequestMapping(value = "/getPage", method = RequestMethod.GET)

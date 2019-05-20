@@ -55,14 +55,14 @@ class Pager extends React.Component {
         const stop = Math.min(props.current + this.halfRange, props.last);
         let pager = [];
         for (let page = start; page <= stop; page++) {
-            pager.push(<Pagination.Item onClick={() => this.handleClick(page)} active={page === props.current}>{page}</Pagination.Item>);
+            pager.push(<Pagination.Item onClick={() => this.handleClick(page)}
+                                        active={page === props.current}>{page}</Pagination.Item>);
         }
         return pager;
     }
 
     render() {
         const props = this.props;
-        console.log(props);
         return (
             <Pagination>
                 <Pagination.First onClick={() => this.handleClick(0)}/>
@@ -72,6 +72,32 @@ class Pager extends React.Component {
                 <Pagination.Last onClick={() => this.handleClick(-1)}/>
             </Pagination>
         )
+    }
+}
+
+const Form = ReactBootstrap.Form;
+const Button = ReactBootstrap.Button;
+
+class CommentForm extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    handleSubmit() {
+        const form = document.forms[0];
+        fetch(`/postComment?`).then(response => response.json())
+            .then(json => console.log(json));
+    }
+
+    render() {
+        return (<Form>
+            <Form.Group>
+                <Form.Control as='textarea' name='_comment' controlId='commentForm'/>
+            </Form.Group>
+            <Button variant='primary' onClick={this.handleSubmit.bind(this)}>
+                send
+            </Button>
+        </Form>)
     }
 }
 
@@ -89,17 +115,14 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {page: -1, size: 10, boardCommentList: [], totalPages: 0, totalElements: 0};
+        const {cookies} = props;
+        console.log(cookies.get('XSRF-TOKEN'));
     }
 
     fetchComment(page, size) {
         fetch(`/getPage?page=${page}&size=${size}`)
             .then(response => response.json())
-            .then(json => this.setState(json));
-    }
-
-    componentDidMount() {
-        const state = this.state;
-        this.fetchComment(state.page, state.size);
+            .then(json => json.page < json.totalPages && this.setState(json));
     }
 
     getCommentComponentList() {
@@ -114,6 +137,15 @@ class App extends React.Component {
             />);
     }
 
+    getFormComponent() {
+        const state = this.state;
+        if (state.page === (state.totalPages - 1)) {
+            return (
+                <CommentForm/>
+            )
+        }
+    }
+
     getPagerComponent() {
         const state = this.state;
         return (
@@ -122,17 +154,25 @@ class App extends React.Component {
         )
     }
 
+    componentDidMount() {
+        const state = this.state;
+        this.fetchComment(state.page, state.size);
+    }
+
     render() {
-        const commentList = this.getCommentComponentList();
-        const pager = this.getPagerComponent();
         return (
             <Container>
-                {commentList}
-                {pager}
+                {this.getCommentComponentList()}
+                {this.getFormComponent()}
+                {this.getPagerComponent()}
             </Container>
         );
     }
 }
 
+const withCookies = ReactCookie.withCookies;
+App = withCookies(App);
+
+const CookiesProvider = ReactCookie.CookiesProvider;
 const appContainer = document.querySelector('#app');
-ReactDOM.render((<App/>), appContainer);
+ReactDOM.render((<CookiesProvider><App/></CookiesProvider>), appContainer);

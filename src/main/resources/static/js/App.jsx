@@ -42,24 +42,33 @@ const Pagination = ReactBootstrap.Pagination;
 class Pager extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {range: 5, current: 0, last: 0};
+        this.halfRange = 2;
     }
 
     handleClick(i) {
         this.props.handleClick(i);
     }
 
-    getRange() {
-
+    getCentralPager() {
+        const props = this.props;
+        const start = Math.max(props.current - this.halfRange, 0);
+        const stop = Math.min(props.current + this.halfRange, props.last);
+        let pager = [];
+        for (let page = start; page <= stop; page++) {
+            pager.push(<Pagination.Item onClick={() => this.handleClick(page)} active={page === props.current}>{page}</Pagination.Item>);
+        }
+        return pager;
     }
 
     render() {
         const props = this.props;
+        console.log(props);
         return (
             <Pagination>
                 <Pagination.First onClick={() => this.handleClick(0)}/>
-                <Pagination.Prev onClick={() => this.handleClick(props.current - 1)}/>
-                <Pagination.Next onClick={() => this.handleClick(props.current + 1)}/>
+                <Pagination.Prev onClick={() => this.handleClick(Math.max(props.current - 1, 0))}/>
+                {this.getCentralPager()}
+                <Pagination.Next onClick={() => this.handleClick(Math.min(props.current + 1, props.last))}/>
                 <Pagination.Last onClick={() => this.handleClick(-1)}/>
             </Pagination>
         )
@@ -85,7 +94,7 @@ class App extends React.Component {
     fetchComment(page, size) {
         fetch(`/getPage?page=${page}&size=${size}`)
             .then(response => response.json())
-            .then(json => {this.setState(json);console.log(json);});
+            .then(json => this.setState(json));
     }
 
     componentDidMount() {
@@ -108,7 +117,8 @@ class App extends React.Component {
     getPagerComponent() {
         const state = this.state;
         return (
-            <Pager current={state.page} handleClick={i => this.fetchComment(i, state.size)}/>
+            <Pager current={state.page} last={state.totalPages - 1}
+                   handleClick={i => this.fetchComment(i, state.size)}/>
         )
     }
 

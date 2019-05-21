@@ -25,7 +25,7 @@ public class BoardPageRepositoryImpl implements BoardPageRepository {
     @Override
     public BoardPage findLatestBoardPage(@Positive int size) {
         var totalNumber = boardCommentJpaRepository.count();
-        var boardPageable = BoardPageable.of((int) totalNumber / size, size);
+        var boardPageable = BoardPageable.of((int) (totalNumber - 1)/ size, size);
         return BoardPage.of(boardCommentJpaRepository.findAll(boardPageable), boardPageable);
     }
 }

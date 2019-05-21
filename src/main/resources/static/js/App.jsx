@@ -47,6 +47,10 @@ class Comment extends React.Component {
 const Pagination = ReactBootstrap.Pagination;
 
 class Pager extends React.Component {
+    static get RANGE() {
+        return 5;
+    }
+
     static get HALF_RANGE() {
         return 2;
     }
@@ -74,10 +78,20 @@ class Pager extends React.Component {
 
     getCentralPager() {
         const props = this.props;
-        const start = Math.max(props.current - Pager.HALF_RANGE, 0);
-        const stop = Math.min(props.current + Pager.HALF_RANGE, props.last);
+        let start = 0;
+        let end = props.last;
+        if (end > Pager.RANGE) {
+            if (props.current <= (start + Pager.HALF_RANGE)) {
+                end = Pager.RANGE;
+            } else if (props.current >= (end - (Pager.HALF_RANGE + 1))) {
+                start = end - Pager.RANGE;
+            } else {
+                start = props.current - Pager.HALF_RANGE;
+                end = props.current + Pager.HALF_RANGE + 1;
+            }
+        }
         let pager = [];
-        for (let page = start; page <= stop; page++) {
+        for (let page = start; page < end; page++) {
             pager.push(<Pagination.Item onClick={() => this.handleClick(page)}
                                         active={page === props.current}>{page}</Pagination.Item>);
         }
@@ -205,7 +219,7 @@ class App extends React.Component {
     getPagerComponent() {
         const state = this.state;
         return (
-            <Pager current={state.page} last={state.totalPages - 1}
+            <Pager current={state.page} last={state.totalPages}
                    handleClick={i => this.fetchComment(i, state.size)}/>
         )
     }

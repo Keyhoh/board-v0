@@ -147,7 +147,7 @@ class CommentForm extends React.Component {
                 },
                 credentials: 'include',
                 body: JSON.stringify({'comment': form._comment.value}),
-            }).finally(props.handlePost);
+            }).finally(props.handlePost).then(() => form._comment.value = '');
         }
     }
 
@@ -212,7 +212,8 @@ class App extends React.Component {
         const props = this.props;
         if (state.page === (state.totalPages - 1)) {
             return (
-                <CommentForm cookies={props.cookies}/>
+                <CommentForm cookies={props.cookies}
+                             handlePost={() => this.fetchComment(-1, props.size)}/>
             )
         }
     }

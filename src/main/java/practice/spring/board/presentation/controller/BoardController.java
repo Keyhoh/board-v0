@@ -19,7 +19,7 @@ public class BoardController {
     }
 
     // TODO: view から form で渡される予定
-    @RequestMapping(value = "/postComment", method = RequestMethod.POST)
+    @PostMapping(value = "/postComment")
     public void postComment(@AuthenticationPrincipal AccountDetail accountDetail,
                                     @RequestBody ReceiveBoardCommentDto receiveBoardCommentDto) {
         var boardComment = BoardComment.builder()
@@ -30,7 +30,7 @@ public class BoardController {
         boardService.createComment(boardComment);
     }
 
-    @RequestMapping(value = "/getPage", method = RequestMethod.GET)
+    @GetMapping(value = "/getPage")
     public SendBoardCommentDto readPage(@RequestParam int page, @RequestParam int size) {
         if (page < 0) {
             return SendBoardCommentDto.of(boardService.findLatestBoardPage(size));

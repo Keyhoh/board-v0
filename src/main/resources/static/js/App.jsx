@@ -14,6 +14,13 @@ const generateKey = () => {
 };
 
 class Comment extends React.Component {
+    static defaultProps = {
+        index: 0,
+        comment: '',
+        username: '',
+        postAt: null,
+    };
+
     /**
      * @param props
      *      index: number
@@ -40,9 +47,25 @@ class Comment extends React.Component {
 const Pagination = ReactBootstrap.Pagination;
 
 class Pager extends React.Component {
+    static get HALF_RANGE() {
+        return 2;
+    }
+
+    static defaultProps = {
+        handleClick() {
+        },
+        current: 0,
+        last: 0,
+    };
+
+    /**
+     * @param props
+     *      handleClick: function   fetch the target page
+     *      current: number         the number of the current page
+     *      last: number            the number of the last page
+     */
     constructor(props) {
         super(props);
-        this.halfRange = 2;
     }
 
     handleClick(i) {
@@ -51,8 +74,8 @@ class Pager extends React.Component {
 
     getCentralPager() {
         const props = this.props;
-        const start = Math.max(props.current - this.halfRange, 0);
-        const stop = Math.min(props.current + this.halfRange, props.last);
+        const start = Math.max(props.current - Pager.HALF_RANGE, 0);
+        const stop = Math.min(props.current + Pager.HALF_RANGE, props.last);
         let pager = [];
         for (let page = start; page <= stop; page++) {
             pager.push(<Pagination.Item onClick={() => this.handleClick(page)}
@@ -79,14 +102,38 @@ const Form = ReactBootstrap.Form;
 const Button = ReactBootstrap.Button;
 
 class CommentForm extends React.Component {
+    static defaultProps = {
+        handlePost() {
+        },
+        cookies: {},
+    };
+
+    /**
+     * @param props
+     *      handlePost: function    the action after post comment
+     *      cookies: object
+     */
     constructor(props) {
         super(props);
+        const {cookies} = props;
+        this.state = {csrfToken: cookies.get('XSRF-TOKEN')};
     }
 
     handleSubmit() {
+        const state = this.state;
         const form = document.forms[0];
-        fetch(`/postComment?`).then(response => response.json())
-            .then(json => console.log(json));
+        const props = this.props;
+        console.log(form);
+        fetch(`/postComment`, {
+            method: 'POST',
+            headers: {
+                'X-XSRF-TOKEN': state.csrfToken,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({'comment': 'abcdefg'}),
+        }).finally(props.handlePost);
     }
 
     render() {
@@ -104,6 +151,15 @@ class CommentForm extends React.Component {
 const Container = ReactBootstrap.Container;
 
 class App extends React.Component {
+    static defaultProps = {
+        boardCommentList: [],
+        totalPages: 0,
+        totalElements: 0,
+        page: 0,
+        size: 10,
+        cookies: {},
+    };
+
     /**
      * @param props
      *      boardCommentList: array the comments of the current page
@@ -111,12 +167,11 @@ class App extends React.Component {
      *      totalElements: number   the amount of all comments
      *      page: number            the number of the current page
      *      size: number            the size of a page
+     *      cookies: object         set by ReactCookie.withCookies
      */
     constructor(props) {
         super(props);
         this.state = {page: -1, size: 10, boardCommentList: [], totalPages: 0, totalElements: 0};
-        const {cookies} = props;
-        console.log(cookies.get('XSRF-TOKEN'));
     }
 
     fetchComment(page, size) {
@@ -139,9 +194,10 @@ class App extends React.Component {
 
     getFormComponent() {
         const state = this.state;
+        const props = this.props;
         if (state.page === (state.totalPages - 1)) {
             return (
-                <CommentForm/>
+                <CommentForm cookies={props.cookies}/>
             )
         }
     }

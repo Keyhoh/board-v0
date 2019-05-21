@@ -5,3 +5,5 @@ create table board_comments
     text       text,
     created_at timestamp   not null
 );
+
+insert into board_comments (username, text, created_at) values('system', 'Hello world!', current_timestamp);

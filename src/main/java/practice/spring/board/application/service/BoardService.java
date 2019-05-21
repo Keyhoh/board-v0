@@ -35,11 +35,11 @@ public class BoardService {
      * 指定のページを取得する
      *
      * @param pageNum ページ番号
-     * @param size 1ページあたりのコメント数
+     * @param size    1ページあたりのコメント数
      * @return 指定されたページ
      */
-    public BoardPage findBoardPage(int pageNum, int size){
-        return boardPageRepository.findBoardPage(pageNum,size);
+    public BoardPage findBoardPage(int pageNum, int size) {
+        return boardPageRepository.findBoardPage(pageNum, size);
     }
 
     /**

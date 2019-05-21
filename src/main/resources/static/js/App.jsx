@@ -130,32 +130,33 @@ class CommentForm extends React.Component {
     constructor(props) {
         super(props);
         const {cookies} = props;
-        this.state = {csrfToken: cookies.get('XSRF-TOKEN')};
+        this.state = {csrfToken: cookies.get('XSRF-TOKEN'), validated: false};
     }
 
-    handleSubmit() {
-        const state = this.state;
+    handleSubmit(e) {
         const form = document.forms[0];
-        const props = this.props;
-        console.log(form);
-        fetch(`/postComment`, {
-            method: 'POST',
-            headers: {
-                'X-XSRF-TOKEN': state.csrfToken,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({'comment': 'abcdefg'}),
-        }).finally(props.handlePost);
+        if (form.checkValidity()) {
+            const state = this.state;
+            const props = this.props;
+            fetch(`/postComment`, {
+                method: 'POST',
+                headers: {
+                    'X-XSRF-TOKEN': state.csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({'comment': form._comment.value}),
+            }).finally(props.handlePost);
+        }
     }
 
     render() {
         return (<Form>
             <Form.Group>
-                <Form.Control as='textarea' name='_comment' controlId='commentForm'/>
+                <Form.Control required as='textarea' name='_comment' controlId='commentForm'/>
             </Form.Group>
-            <Button variant='primary' onClick={this.handleSubmit.bind(this)}>
+            <Button variant='primary' onClick={e => this.handleSubmit(e)}>
                 send
             </Button>
         </Form>)

@@ -3,29 +3,29 @@ package practice.spring.board.infrastructure.repositoryimpl;
 import org.springframework.stereotype.Component;
 import practice.spring.board.domain.model.accountdetail.AccountDetail;
 import practice.spring.board.domain.model.accountdetail.AccountDetailRepository;
-import practice.spring.board.domain.model.account.Account;
-import practice.spring.board.infrastructure.persistence.AccountJpaRepository;
+import practice.spring.board.infrastructure.persistence.JpaAccountRepository;
+import practice.spring.board.infrastructure.vo.JpaAccount;
 
 import java.util.Optional;
 
 @Component
 public class AccountDetailRepositoryImpl implements AccountDetailRepository {
-    private final AccountJpaRepository accountJpaRepository;
+    private final JpaAccountRepository jpaAccountRepository;
 
-    public AccountDetailRepositoryImpl(AccountJpaRepository accountJpaRepository) {
-        this.accountJpaRepository = accountJpaRepository;
+    public AccountDetailRepositoryImpl(JpaAccountRepository jpaAccountRepository) {
+        this.jpaAccountRepository = jpaAccountRepository;
     }
 
     @Override
     public Optional<AccountDetail> findByUsername(String username) {
-        return accountJpaRepository.findByUsername(username).map(this::toAccountDetail);
+        return jpaAccountRepository.findByUsername(username).map(this::toAccountDetail);
     }
 
-    private AccountDetail toAccountDetail(Account account) {
+    private AccountDetail toAccountDetail(JpaAccount jpaAccount) {
         return AccountDetail.builder()
-                .username(account.getUsername())
-                .password(account.getPassword())
-                .enabled(account.isEnabled())
+                .username(jpaAccount.getUsername())
+                .password(jpaAccount.getPassword())
+                .enabled(jpaAccount.isEnabled())
                 .build();
     }
 }

@@ -26,7 +26,7 @@ class Comment extends React.Component {
      *      index: number
      *      comment: string
      *      username: string
-     *      postAt: date
+     *      createdAt: date
      */
     constructor(props) {
         super(props);

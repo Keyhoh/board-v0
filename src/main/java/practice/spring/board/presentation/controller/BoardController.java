@@ -8,8 +8,6 @@ import practice.spring.board.domain.model.boardcomment.BoardComment;
 import practice.spring.board.presentation.dto.ReceiveBoardCommentDto;
 import practice.spring.board.presentation.dto.SendBoardCommentDto;
 
-import java.time.LocalDateTime;
-
 @RestController
 public class BoardController {
     private final BoardService boardService;
@@ -18,14 +16,12 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    // TODO: view から form で渡される予定
     @PostMapping(value = "/postComment")
     public void postComment(@AuthenticationPrincipal AccountDetail accountDetail,
                                     @RequestBody ReceiveBoardCommentDto receiveBoardCommentDto) {
         var boardComment = BoardComment.builder()
                 .username(accountDetail.getUsername())
                 .comment(receiveBoardCommentDto.getComment())
-                .postAt(LocalDateTime.now())
                 .build();
         boardService.createComment(boardComment);
     }

@@ -3,20 +3,21 @@ package practice.spring.board.infrastructure.repositoryimpl;
 import org.springframework.stereotype.Component;
 import practice.spring.board.domain.model.account.Account;
 import practice.spring.board.domain.model.account.AccountRepository;
-import practice.spring.board.infrastructure.persistence.AccountJpaRepository;
+import practice.spring.board.infrastructure.persistence.JpaAccountRepository;
+import practice.spring.board.infrastructure.vo.JpaAccount;
 
 import java.util.Optional;
 
 @Component
 public class AccountRepositoryImpl implements AccountRepository {
-    private AccountJpaRepository accountJpaRepository;
+    private JpaAccountRepository jpaAccountRepository;
 
-    public AccountRepositoryImpl(AccountJpaRepository accountJpaRepository) {
-        this.accountJpaRepository = accountJpaRepository;
+    public AccountRepositoryImpl(JpaAccountRepository jpaAccountRepository) {
+        this.jpaAccountRepository = jpaAccountRepository;
     }
 
     @Override
     public Optional<Account> findByUsername(String username) {
-        return accountJpaRepository.findByUsername(username);
+        return jpaAccountRepository.findByUsername(username).map(JpaAccount::toAccount);
     }
 }

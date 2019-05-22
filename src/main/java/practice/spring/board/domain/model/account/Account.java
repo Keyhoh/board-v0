@@ -1,17 +1,11 @@
 package practice.spring.board.domain.model.account;
 
+import lombok.Builder;
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
-
+@Builder
 @Getter
-@Entity
-@Table(name = "accounts")
-public class Account implements Serializable {
-    @Id
+public class Account{
     private String username;
     private String password;
     private boolean enabled;

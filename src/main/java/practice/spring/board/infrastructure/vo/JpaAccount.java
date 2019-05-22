@@ -2,7 +2,6 @@ package practice.spring.board.infrastructure.vo;
 
 import lombok.Getter;
 import lombok.Setter;
-import practice.spring.board.domain.model.account.Account;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,12 +17,4 @@ public class JpaAccount implements Serializable {
     private String username;
     private String password;
     private boolean enabled;
-
-    public Account toAccount(){
-        return Account.builder()
-                .username(username)
-                .password(password)
-                .enabled(enabled)
-                .build();
-    }
 }

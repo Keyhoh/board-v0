@@ -1,4 +1,4 @@
-package practice.spring.board.presentation.dto.out;
+package practice.spring.board.presentation.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;

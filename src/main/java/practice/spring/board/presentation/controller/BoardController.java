@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import practice.spring.board.application.service.BoardService;
 import practice.spring.board.domain.model.accountdetail.AccountDetail;
 import practice.spring.board.domain.model.boardcomment.BoardComment;
-import practice.spring.board.presentation.dto.in.ReceiveBoardCommentDto;
-import practice.spring.board.presentation.dto.out.SendBoardCommentDto;
+import practice.spring.board.presentation.dto.ReceiveBoardCommentDto;
+import practice.spring.board.presentation.dto.SendBoardCommentDto;
 
 import java.time.LocalDateTime;
 

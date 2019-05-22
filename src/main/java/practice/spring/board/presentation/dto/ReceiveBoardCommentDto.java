@@ -1,4 +1,4 @@
-package practice.spring.board.presentation.dto.in;
+package practice.spring.board.presentation.dto;
 
 import lombok.Getter;
 import lombok.Setter;

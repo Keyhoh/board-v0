@@ -16,7 +16,7 @@ public class BoardCommentRepositoryImpl implements BoardCommentRepository {
 
     @Override
     public BoardComment save(BoardComment boardComment) {
-        return jpaBoardCommentRepository.save(toJpaBoardComment(boardComment)).toBoardComment();
+        return toBoardComment(jpaBoardCommentRepository.save(toJpaBoardComment(boardComment)));
     }
 
     private JpaBoardComment toJpaBoardComment(BoardComment boardComment) {
@@ -25,5 +25,14 @@ public class BoardCommentRepositoryImpl implements BoardCommentRepository {
         jpaBoardComment.setText(boardComment.getComment());
         jpaBoardComment.setCreatedAt(boardComment.getPostAt());
         return jpaBoardComment;
+    }
+
+    private BoardComment toBoardComment(JpaBoardComment jpaBoardComment) {
+        return BoardComment.builder()
+                .index(jpaBoardComment.getId())
+                .username(jpaBoardComment.getUsername())
+                .comment(jpaBoardComment.getText())
+                .postAt(jpaBoardComment.getCreatedAt())
+                .build();
     }
 }

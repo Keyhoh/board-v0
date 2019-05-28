@@ -21,14 +21,14 @@ public class BoardPageRepositoryImpl implements BoardPageRepository {
     @Override
     public BoardPage findBoardPage(int pageNum, int size) {
         var boardPageable = BoardPageable.of(pageNum, size);
-        return BoardPage.of(jpaBoardCommentRepository.findAll(boardPageable).map(this::toBoardComment), boardPageable);
+        return (BoardPage) jpaBoardCommentRepository.findAll(boardPageable).map(this::toBoardComment);
     }
 
     @Override
     public BoardPage findLatestBoardPage(@Positive int size) {
         var totalNumber = jpaBoardCommentRepository.count();
         var boardPageable = BoardPageable.of((int) (totalNumber - 1) / size, size);
-        return BoardPage.of(jpaBoardCommentRepository.findAll(boardPageable).map(this::toBoardComment), boardPageable);
+        return (BoardPage) jpaBoardCommentRepository.findAll(boardPageable).map(this::toBoardComment);
     }
 
     private BoardComment toBoardComment(JpaBoardComment jpaBoardComment) {

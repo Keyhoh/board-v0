@@ -136,7 +136,7 @@ public class BoardPageable implements Pageable, Serializable {
             return Arrays.stream(Size.values())
                     .filter(size -> size.getValue() == value)
                     .findFirst()
-                    .orElseThrow(IllegalArgumentException::new);
+                    .orElseThrow(()->new IllegalArgumentException("Unexpected argument: " + value));
         }
     }
 }
